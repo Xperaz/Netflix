@@ -1,7 +1,13 @@
 import Header from "../container/Header"
 import { hero_img } from "../assets"
 import Hero from "../container/home/Hero"
-import { feature1 } from "../assets";
+import TvSection from "../components/home/TvSection"
+import Download from "../components/home/Download"
+import Screens from "../components/home/Screens"
+import Kids from "../components/home/Kids"
+import Accordion from "../container/home/Accordion"
+import Footer from "../container/home/Footer"
+
 
 const Home = () => {
   return (
@@ -13,14 +19,12 @@ const Home = () => {
         </div>
         <Hero />
       </div>
-
-      <div className="flex justify-between mx-10 w-full border-b-8 border-[#232323]">
-        <div className="flex flex-col justify-center gap-4 flex-1">
-          <h1 className="font-bold font-lato text-[2em]">Enjoy on your TV</h1>
-          <p>Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.</p>
-        </div>
-        <img src={feature1} className="flex-1 max-w[93%]"></img>
-      </div>
+      <TvSection />
+      <Download />
+      <Screens />
+      <Kids />
+      <Accordion />
+      <Footer />
     </div>
   )
 }

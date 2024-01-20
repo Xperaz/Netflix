@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         primary: '#E40915',
+        secondary: '#2D2D2D',
       },
       fontFamily: {
         'lato': ['lato', 'sans-serif']
