@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div className="h-full w-full overflow-hidden">
       <div className="relative border-b-8 border-[#232323]">
-        <Header />
+        <Header hasLogin={true} />
         <div className="">
           <img src={hero_img} alt="hero section image" className="opacity-50 w-full"/>
         </div>

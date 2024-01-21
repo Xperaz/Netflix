@@ -2,4 +2,4 @@
 
 building a Netflix clone with GPT-3 integration.
 
-// left => header.
+// 2:31

@@ -6,6 +6,7 @@ import feature4 from './feature-4.png';
 import hero_img from './header-image.png';
 import logo from './logo.png';
 import download_img from './w.png';
+import bg_2 from './bg2.png';
 
 export {
     down_arrow,
@@ -16,4 +17,5 @@ export {
     hero_img,
     logo,
     download_img,
+    bg_2,
 }
