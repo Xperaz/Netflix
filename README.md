@@ -2,4 +2,4 @@
 
 building a Netflix clone with GPT-3 integration.
 
-// 2:31
+- fix redux context provider

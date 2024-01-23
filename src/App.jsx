@@ -1,37 +1,38 @@
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
-import Home from "./pages/Home"
-import Browse from "./pages/Browse"
-import Login from "./pages/Login"
-import SignUp from "./pages/SignUp"
-import RoutingError from "./components/shared/RoutingError"
+import { Outlet, RouterProvider, useNavigate } from "react-router-dom"
+import { router } from "./routes/Routers"
+import { Provider, useDispatch } from "react-redux"
+import appStore from "./state/appStore"
+import { useEffect } from "react"
+import { onAuthStateChanged } from "firebase/auth"
+import { auth } from "./firebase/firebase"
+import { addUser, removeUser } from "./state/userSlice"
 
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-    errorElement: <RoutingError />,
-  },
-  {
-    path: '/browse',
-    element: <Browse />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/signup',
-    element: <SignUp />,
-  },
-])
 
 function App() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email,  displayName} = user;
+        dispatch(addUser({ uid, email, displayName }));
+        navigate('/browse');
+      } else {
+        // User is signed out
+        dispatch(removeUser());
+        navigate('/');
+      }
+    });
+  }, [dispatch, navigate]);
 
   return (
-    <RouterProvider router={router} >
-        <Outlet />
+    <Provider store={appStore}>
+        <RouterProvider router={router}>
+            <Outlet />
     </RouterProvider>
+      </Provider>
+
   )
 }
 

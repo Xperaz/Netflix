@@ -1,6 +1,8 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { checkDataIsValid } from "../../utils/validateForm";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../firebase/firebase'
 
 
 const LoginForm = () => {
@@ -15,14 +17,46 @@ const LoginForm = () => {
     }
 
     const handleButtonClick = () => {
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+        let name;
         let message;
+
+        if (!isSignIn) name = nameRef.current.value;
+
         if (!isSignIn) {
-            message = checkDataIsValid(emailRef.current.value, passwordRef.current.value, nameRef.current.value);
-        }
-        else {
-            message = checkDataIsValid(emailRef.current.value, passwordRef.current.value, null);
+            message = checkDataIsValid(email, password, name);
+        } else {
+            message = checkDataIsValid(email, password, null);
         }
         setErrorMessage(message);
+        if (message !== null) return;
+
+        if (!isSignIn) {
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                // const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorMessage);
+            })
+        }
+
+        else if (isSignIn) {
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                // const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorMessage);
+            });
+        }
     }
 
   return (
