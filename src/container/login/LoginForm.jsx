@@ -2,7 +2,9 @@ import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { checkDataIsValid } from "../../utils/validateForm";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../firebase/firebase'
+import { auth } from '../../firebase/firebase';
+import { useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
 
 
 const LoginForm = () => {
@@ -11,6 +13,7 @@ const LoginForm = () => {
     const nameRef = useRef(null);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const navigate = useNavigate();
 
     const toggleSignInForm = () => {
         setIsSignIn(!isSignIn);
@@ -36,12 +39,18 @@ const LoginForm = () => {
             createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user);
+                updateProfile(auth.currentUser, {
+                    displayName: name, photoURL: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fgithub.com%2FXperaz&psig=AOvVaw26AquHNajWvUWc_xl9k28M&ust=1706278438477000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNDKtuXc-IMDFQAAAAAdAAAAABAD"
+
+                  }).catch((error) => {
+                    setErrorMessage(error.message);
+                  });
             })
             .catch((error) => {
                 // const errorCode = error.code;
                 const errorMessage = error.message;
                 setErrorMessage(errorMessage);
+                navigate('/login')
             })
         }
 
@@ -50,11 +59,13 @@ const LoginForm = () => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 console.log(user);
+                navigate('/browse');
             })
             .catch((error) => {
                 // const errorCode = error.code;
                 const errorMessage = error.message;
                 setErrorMessage(errorMessage);
+                navigate('/login')
             });
         }
     }

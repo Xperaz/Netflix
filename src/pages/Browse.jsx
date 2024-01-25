@@ -1,7 +1,10 @@
+import Header from "../container/Header"
 
 const Browse = () => {
   return (
-    <div>Browse</div>
+    <div>
+      <Header btnName="logout"/>
+    </div>
   )
 }
 

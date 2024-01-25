@@ -6,7 +6,7 @@ import LoginFooter from "../container/login/LoginFooter"
 const Login = () => {
   return (
     <div className="w-full h-[100vh] relative">
-      <Header hasLogin={false} />
+      <Header btnName="" />
       <img src={bg_2} alt="netflix background image" className=" opacity-55 w-full h-full" />
       <LoginForm />
       <LoginFooter />
