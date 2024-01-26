@@ -5,16 +5,31 @@ import Button from '../components/shared/Button';
 import { auth } from '../firebase/firebase';
 import { signOut } from "firebase/auth";
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+// import { useDispatch } from 'react-redux';
+// import { useEffect, useState } from 'react';
+// import { onAuthStateChanged } from 'firebase/auth';
+// import { addUser, removeUser } from '../state/userSlice';
 
 const Header = ({btnName}) => {
-    const navigate = useNavigate();
-    const [userInfo, setUserINfo] = useState();
-    const  user = useSelector(store => store.user);
-    console.log(user);
-    if (user){
-      setUserINfo(user?.user);
-    }
+  const navigate = useNavigate();
+  const  userInfo = useSelector(store => store.user);
+  // const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //       const { uid, email, displayName, photoURL } = user;
+    //       dispatch(addUser({ uid, email, displayName, photoURL }));
+    //       navigate('/browse');
+    //     } else {
+    //       // User is signed out
+    //       dispatch(removeUser());
+    //       navigate('/login');
+    //     }
+    //   });
+
+    //   return () => unsubscribe();
+    // }, [dispatch]);
 
     const handleSignIn = (e) => {
         e.preventDefault();
@@ -24,7 +39,7 @@ const Header = ({btnName}) => {
     const handleLogOut = (e) => {
       e.preventDefault();
       signOut(auth).then(() => {
-        navigate('/');
+       navigate('/');
         // Sign-out successful.
       }).catch((error) => {
         console.log("can't log out ", error.message);
@@ -40,12 +55,12 @@ const Header = ({btnName}) => {
       </Button>) : (null)
       }
 
-      { btnName === 'logout' ? (
+      { userInfo !== null && btnName === 'logout' ? (
       <div className='flex justify-between items-center gap-4'>
         <Button style="text-white bg-primary px-4 rounded-md h-9 font-semibold" onClick={handleLogOut}>
           Log Out
         </Button>
-        <img src={userInfo.photoURL} alt={`${userInfo.displayName} profile image`} className='w-12 h-12 rounded-full' />
+        <img src={userInfo?.photoURL} alt={`${userInfo?.displayName} profile image`} className='w-12 h-12 rounded-full' />
       </div> ) : (null)
       }
       </div>

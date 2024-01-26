@@ -5,6 +5,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import { auth } from '../../firebase/firebase';
 import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser } from "../../state/userSlice";
 
 
 const LoginForm = () => {
@@ -14,6 +16,7 @@ const LoginForm = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const toggleSignInForm = () => {
         setIsSignIn(!isSignIn);
@@ -38,10 +41,22 @@ const LoginForm = () => {
         if (!isSignIn) {
             createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
+                
+                // eslint-disable-next-line no-unused-vars
                 const user = userCredential.user;
                 updateProfile(auth.currentUser, {
-                    displayName: name, photoURL: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fgithub.com%2FXperaz&psig=AOvVaw26AquHNajWvUWc_xl9k28M&ust=1706278438477000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNDKtuXc-IMDFQAAAAAdAAAAABAD"
+                    displayName: name, 
+                    photoURL: "https://cdnb.artstation.com/p/assets/images/images/034/457/389/large/shin-min-jeong-.jpg?1612345145"
 
+                  }).then(() => {
+                    const { uid, email, displayName, photoURL } = auth.currentUser;
+                    dispatch(addUser({
+                        uid: uid,
+                        email: email,
+                        displayName: displayName,
+                        photoURL: photoURL
+                    }));
+                    navigate('/browse');
                   }).catch((error) => {
                     setErrorMessage(error.message);
                   });
