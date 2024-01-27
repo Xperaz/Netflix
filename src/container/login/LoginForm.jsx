@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../state/userSlice";
+import { AVATAR } from "../../constants/links";
 
 
 const LoginForm = () => {
@@ -46,8 +47,7 @@ const LoginForm = () => {
                 const user = userCredential.user;
                 updateProfile(auth.currentUser, {
                     displayName: name, 
-                    photoURL: "https://cdnb.artstation.com/p/assets/images/images/034/457/389/large/shin-min-jeong-.jpg?1612345145"
-
+                    photoURL: AVATAR
                   }).then(() => {
                     const { uid, email, displayName, photoURL } = auth.currentUser;
                     dispatch(addUser({

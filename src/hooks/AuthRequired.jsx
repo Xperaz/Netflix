@@ -14,9 +14,8 @@ const AuthRequired = () => {
         if (user) {
           const { uid, email, displayName, photoURL } = user;
           dispatch(addUser({ uid, email, displayName, photoURL }));
-          return <Outlet />;
+          navigate('/browse');
         } else {
-          // User is signed out
           dispatch(removeUser());
           navigate('/login');
         }

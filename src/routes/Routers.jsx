@@ -15,28 +15,10 @@ export const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
     <Route index element={<Home />} />
     <Route path="login" element={<Login />} />
+    <Route path="signup" element={<SignUp />} />
     <Route element={<AuthRequired />}>
       <Route path="browse" element={<Browse />} />
     </Route>
+    <Route path="*" element={<RoutingError />} />
   </Route>
 ));
-
-// export const router = createBrowserRouter([
-//     {
-//       path: '/',
-//       element: <Home />,
-//       errorElement: <RoutingError />,
-//     },
-//     {
-//       path: '/browse',
-//       element: <Browse />,
-//     },
-//     {
-//       path: '/login',
-//       element: <Login />,
-//     },
-//     {
-//       path: '/signup',
-//       element: <SignUp />,
-//     },
-//   ])

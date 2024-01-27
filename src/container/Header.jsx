@@ -1,35 +1,14 @@
-
 import { useNavigate } from 'react-router-dom';
 import { logo } from '../assets/index'
 import Button from '../components/shared/Button';
 import { auth } from '../firebase/firebase';
 import { signOut } from "firebase/auth";
 import { useSelector } from 'react-redux';
-// import { useDispatch } from 'react-redux';
-// import { useEffect, useState } from 'react';
-// import { onAuthStateChanged } from 'firebase/auth';
-// import { addUser, removeUser } from '../state/userSlice';
+
 
 const Header = ({btnName}) => {
   const navigate = useNavigate();
   const  userInfo = useSelector(store => store.user);
-  // const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-    //     if (user) {
-    //       const { uid, email, displayName, photoURL } = user;
-    //       dispatch(addUser({ uid, email, displayName, photoURL }));
-    //       navigate('/browse');
-    //     } else {
-    //       // User is signed out
-    //       dispatch(removeUser());
-    //       navigate('/login');
-    //     }
-    //   });
-
-    //   return () => unsubscribe();
-    // }, [dispatch]);
 
     const handleSignIn = (e) => {
         e.preventDefault();
@@ -60,7 +39,7 @@ const Header = ({btnName}) => {
         <Button style="text-white bg-primary px-4 rounded-md h-9 font-semibold" onClick={handleLogOut}>
           Log Out
         </Button>
-        <img src={userInfo?.photoURL} alt={`${userInfo?.displayName} profile image`} className='w-12 h-12 rounded-full' />
+        <img src={userInfo?.user?.photoURL} alt={`${userInfo?.user?.displayName} profile image`} className='w-12 h-12 rounded-full' />
       </div> ) : (null)
       }
       </div>
