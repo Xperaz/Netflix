@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addNowPlayingMovies } from "../state/moviesSlice";
 
 const useMovies = (TMDB_API_URL) => {
-    const [movies, setMovies] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+    const dispatch = useDispatch();
     
     useEffect(() => {
           const options = {
@@ -18,18 +19,17 @@ const useMovies = (TMDB_API_URL) => {
             try {
                 const response = await fetch(`${TMDB_API_URL}`, options);
                 const data = await response.json();
-                setMovies(data);
+                dispatch(addNowPlayingMovies(data.results));
             } catch(err) {
                 setError(err.message);
             } finally {
                 setLoading(false);
             }
-
           }
           getData();
-      }, [TMDB_API_URL]);
+      }, [TMDB_API_URL, dispatch]);
 
-  return {movies, loading, error};
+  return {loading, error};
 }
 
 export default useMovies
